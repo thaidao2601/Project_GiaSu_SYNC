@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>S.Y.N.C - Nền tảng kết nối giáo dục</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+
+        /* Phần Banner chính (Hero Section) */
+        .hero {
+            background-color: #0866ff;
+            color: white;
+            text-align: center;
+            padding: 120px 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        /* Nút bấm (Buttons) */
+        .btn {
+            padding: 15px 30px;
+            text-decoration: none; /* Bỏ gạch chân của thẻ link */
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin: 0 10px;
+            transition: 0.3s; /* Hiệu ứng chuyển màu mượt mà */
+            display: inline-block;
+        }
+
+        /* Nút màu trắng */
+        .btn-primary {
+            background-color: white;
+            color: #0866ff;
+        }
+        .btn-primary:hover { background-color: #e4e6eb; }
+
+        /* Nút viền trắng */
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        .btn-outline:hover {
+            background-color: white;
+            color: #0866ff;
+        }
+
+        /* Phần giới thiệu tính năng */
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .feature-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <h1>S.Y.N.C</h1>
+        <p>Kết nối Gia sư tận tâm và Phụ huynh thông thái chỉ với vài cú click.</p>
+        
+        <a href="/login" class="btn btn-primary">Tìm Gia Sư Ngay</a>
+        <a href="/login" class="btn btn-outline">Đăng nhập / Đăng ký</a>
+    </div>
+
+    <div class="features">
+        <div class="feature-box">
+            <h3>Dành cho Phụ huynh</h3>
+            <p>Dễ dàng tìm kiếm gia sư phù hợp với học lực và độ tuổi của con bạn.</p>
+        </div>
+        <div class="feature-box">
+            <h3>Dành cho Gia sư</h3>
+            <p>Tạo hồ sơ chuyên nghiệp và tiếp cận hàng ngàn phụ huynh đang có nhu cầu.</p>
+        </div>
+        <div class="feature-box">
+            <h3>Kết nối an toàn</h3>
+            <p>Thông tin minh bạch, lịch sử kết nối rõ ràng, đảm bảo uy tín cho cả hai bên.</p>
+        </div>
+    </div>
+
+</body>
+</html>

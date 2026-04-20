@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>S.Y.N.C - Đăng nhập / Đăng ký</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        form { background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0px 4px 15px rgba(0,0,0,0.1); width: 350px; max-height: 90vh; overflow-y: auto;}
+        h2 { text-align: center; color: #333; margin-top: 0; }
+        input, select { width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; border: none; border-radius: 5px; cursor: pointer; margin-bottom: 10px; font-weight: bold; color: white; }
+        .btn-login { background-color: #0866ff; }
+        .btn-register { background-color: #42b72a; }
+        .toggle-text { text-align: center; color: #0866ff; cursor: pointer; font-size: 14px; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <form method="POST">
+        <h2 id="formTitle">Đăng nhập S.Y.N.C</h2>
+        
+        <label>Email:</label>
+        <input type="email" name="email" required>
+
+        <label>Mật khẩu:</label>
+        <input type="password" name="password" required>
+
+        <label>Bạn là:</label>
+        <select name="role" id="roleSelect" onchange="toggleRoleFields()">
+            <option value="parent">Phụ huynh</option>
+            <option value="tutor">Gia sư</option>
+        </select>
+
+        <div id="registerFields" style="display: none;">
+            <label>Xác nhận lại mật khẩu:</label>
+            <input type="password" name="confirm_password">
+
+            <label>Họ và Tên thật:</label>
+            <input type="text" name="full_name">
+
+            <div id="tutorFields" style="display: none;">
+                <label>Môn có thể dạy (VD: Toán, Lý):</label>
+                <input type="text" name="subjects">
+                
+                <label>Học phí đề xuất (VNĐ/buổi):</label>
+                <input type="text" name="price">
+            </div>
+
+            <div id="parentFields">
+                <label>Yêu cầu tìm gia sư (VD: Lớp 10, Cầu Giấy):</label>
+                <input type="text" name="experience">
+            </div>
+        </div>
+
+        <input type="hidden" name="action" id="actionInput" value="login">
+        
+        <button type="submit" class="btn-login" id="submitBtn">Đăng nhập ngay</button>
+        <p class="toggle-text" onclick="toggleMode()" id="toggleBtn">Chưa có tài khoản? Chuyển sang Đăng ký</p>
+    </form>
+
+    <script>
+        let isLoginMode = true;
+
+        // Hàm chuyển đổi Đăng nhập <-> Đăng ký
+        function toggleMode() {
+            isLoginMode = !isLoginMode;
+            document.getElementById('registerFields').style.display = isLoginMode ? 'none' : 'block';
+            document.getElementById('formTitle').innerText = isLoginMode ? 'Đăng nhập S.Y.N.C' : 'Tạo tài khoản mới';
+            document.getElementById('submitBtn').innerText = isLoginMode ? 'Đăng nhập ngay' : 'Hoàn tất Đăng ký';
+            document.getElementById('submitBtn').className = isLoginMode ? 'btn-login' : 'btn-register';
+            document.getElementById('toggleBtn').innerText = isLoginMode ? 'Chưa có tài khoản? Chuyển sang Đăng ký' : 'Đã có tài khoản? Quay lại Đăng nhập';
+            document.getElementById('actionInput').value = isLoginMode ? 'login' : 'register';
+            toggleRoleFields(); // Cập nhật lại các trường riêng biệt
+        }
+
+        // Hàm chuyển đổi thông tin theo Vai trò
+        function toggleRoleFields() {
+            let role = document.getElementById('roleSelect').value;
+            if (!isLoginMode) {
+                document.getElementById('tutorFields').style.display = (role === 'tutor') ? 'block' : 'none';
+                document.getElementById('parentFields').style.display = (role === 'parent') ? 'block' : 'none';
+            }
+        }
+    </script>
+</body>
+</html>

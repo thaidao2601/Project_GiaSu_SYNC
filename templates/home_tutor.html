@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>S.Y.N.C - Bảng điều khiển Gia sư</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; }
+        
+        /* Thanh menu phía trên (Navigation Bar) */
+        .navbar {
+            background-color: #0866ff;
+            color: white;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Khung chứa nội dung */
+        .container { padding: 30px; max-width: 1000px; margin: auto; }
+
+        /* Thiết kế thẻ yêu cầu kết nối */
+        .request-card {
+            background: white;
+            padding: 20px;
+            border-left: 5px solid #f2a900; /* Vạch màu vàng bên trái để gây chú ý */
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .request-info h3 { margin: 0 0 5px 0; color: #333; }
+        .request-info p { margin: 3px 0; color: #666; }
+
+        /* Nhóm nút bấm */
+        .btn-group button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+        }
+
+        .btn-accept { background-color: #42b72a; }
+        .btn-accept:hover { background-color: #36a420; }
+
+        .btn-decline { background-color: #dc3545; }
+        .btn-decline:hover { background-color: #c82333; }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <h2>S.Y.N.C</h2>
+        <div>Chào bạn, <strong>Gia sư {{ session['full_name'] }}</strong> | <a href="/" style="color: white;">Đăng xuất</a></div>
+    </div>
+
+<div class="container">
+        <h2>Lời mời kết nối mới</h2>
+        
+{% for req in requests %}
+        <div class="request-card">
+            <div class="request-info">
+                <h3>Phụ huynh: {{ req.full_name }}</h3>
+                <p><strong>Nhu cầu:</strong> {{ req.experience }}</p>
+                <p><strong>Trạng thái:</strong> 
+                    {% if req.status == 'pending' %}<span style="color: orange;">Đang chờ</span>
+                    {% elif req.status == 'accepted' %}<span style="color: green;">Đã đồng ý</span>
+                    {% else %}<span style="color: red;">Đã từ chối</span>{% endif %}
+                </p>
+            </div>
+            
+            {% if req.status == 'pending' %}
+            <div class="btn-group">
+                <form method="POST" action="/update_request" style="display:inline;">
+                    <input type="hidden" name="conn_id" value="{{ req.conn_id }}">
+                    <button type="submit" name="action" value="accept" class="btn-accept">Chấp nhận</button>
+                </form>
+                
+                <form method="POST" action="/update_request" style="display:inline;">
+                    <input type="hidden" name="conn_id" value="{{ req.conn_id }}">
+                    <button type="submit" name="action" value="decline" class="btn-decline">Từ chối</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
+        <p style="color: #666; font-style: italic;">Bạn chưa có lời mời kết nối nào.</p>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

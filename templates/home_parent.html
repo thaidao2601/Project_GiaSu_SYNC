@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>S.Y.N.C - Danh sách kết nối</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; }
+        
+        /* Thanh menu phía trên (Navigation Bar) */
+        .navbar {
+            background-color: #0866ff;
+            color: white;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Khung chứa danh sách */
+        .container { padding: 30px; max-width: 1000px; margin: auto; }
+
+        /* Thiết kế từng thẻ (Card) của mỗi người */
+        .user-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .user-info h3 { margin: 0 0 5px 0; color: #0866ff; }
+        .user-info p { margin: 2px 0; color: #555; }
+
+        /* Nút Hủy kết nối (Màu đỏ) */
+        .btn-disconnect {
+            background-color: #dc3545; 
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-disconnect:hover { background-color: #c82333; }
+
+        /* Nút kết nối (Màu xanh) */
+        .btn-connect {
+            background-color: #42b72a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-connect:hover { background-color: #36a420; }
+        
+        /* Nhãn môn học */
+        .tag {
+            background: #e7f3ff;
+            color: #1877f2;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <h2>S.Y.N.C</h2>
+        <div>Chào bạn, <strong>Phụ huynh {{ session['full_name'] }}</strong> | <a href="/" style="color: white;">Đăng xuất</a></div>
+    </div>
+
+    <div class="container">
+        <h2>Danh sách Gia sư phù hợp</h2>
+
+        {% for tutor in tutors %}
+        <div class="user-card">
+            <div class="user-info">
+                <h3>{{ tutor.full_name }}</h3>
+                <span class="tag">{{ tutor.subjects }}</span>
+                <p>Học phí đề xuất: {{ tutor.price }}</p>
+            </div>
+            
+            {% if tutor.tutor_id in requested_tutors %}
+                <form method="POST" action="/disconnect">
+                    <input type="hidden" name="tutor_id" value="{{ tutor.tutor_id }}">
+                    <button type="submit" class="btn-disconnect">Huỷ kết nối</button>
+                </form>
+            {% else %}
+                <form method="POST" action="/connect">
+                    <input type="hidden" name="tutor_id" value="{{ tutor.tutor_id }}">
+                    <button type="submit" class="btn-connect">Kết nối ngay</button>
+                </form>
+            {% endif %}
+
+        </div>
+        {% else %}
+        <p style="color: #666; font-style: italic;">Hiện tại chưa có gia sư nào đăng ký trên hệ thống.</p>
+        {% endfor %}
+
+    </div>
+
+</body>
+</html>
