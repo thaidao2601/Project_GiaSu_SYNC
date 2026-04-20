@@ -188,5 +188,39 @@ def update_request():
     # Xong việc thì tải lại trang Gia sư
     return redirect('/home_tutor')
 
+# --- CỬA HẬU DÀNH RIÊNG CHO ADMIN ---
+@app.route('/admin_secret_view')
+def admin_secret_view():
+    conn = get_db_connection()
+    
+    users = conn.execute('SELECT * FROM Users').fetchall()
+    profiles = conn.execute('SELECT * FROM Profiles').fetchall()
+    connections = conn.execute('SELECT * FROM Connections').fetchall()
+    conn.close()
+
+    # Tạo một giao diện HTML đơn giản ngay trong Python để hiển thị dữ liệu
+    html = "<h1 style='color: red;'>KHO DỮ LIỆU S.Y.N.C (ADMIN ONLY)</h1>"
+    
+    html += "<h2>1. BẢNG USERS (Tài khoản)</h2><ul>"
+    for u in users:
+        html += f"<li>ID: {u['id']} | Email: {u['email']} | Pass: {u['password']} | Role: {u['role']}</li>"
+    html += "</ul>"
+    
+    html += "<h2>2. BẢNG PROFILES (Hồ sơ)</h2><ul>"
+    for p in profiles:
+        html += f"<li>User_ID: {p['user_id']} | Tên: {p['full_name']} | Môn/Nhu cầu: {p['subjects'] or p['experience']} | Giá: {p['price']}</li>"
+    html += "</ul>"
+    
+    html += "<h2>3. BẢNG CONNECTIONS (Ghép cặp)</h2><ul>"
+    if len(connections) == 0:
+        html += "<li>Chưa có lời mời kết nối nào.</li>"
+    for c in connections:
+        html += f"<li>Phụ huynh (ID: {c['parent_id']}) -> Gia sư (ID: {c['tutor_id']}) | Trạng thái: <b>{c['status']}</b></li>"
+    html += "</ul>"
+    
+    html += "<br><a href='/'>Quay lại trang chủ</a>"
+    
+    return html
+
 if __name__ == '__main__':
     app.run(debug=True)
